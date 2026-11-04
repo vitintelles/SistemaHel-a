@@ -75,8 +75,11 @@ while True:
         opcao_ingred = int(input("Digite o número do ingrediente: "))
         ingred_selecionado = lista_ingredientes[opcao_ingred - 1]
         preço = float(input("Digite o valor pago pelo ingrediente: ").replace(",","."))
-        tamanho = float(input("Digite o tamanho em gramas: ").replace(",", "."))
-        
+        tamanho = float(input("Digite o tamanho em gramas(ou unidades, se for Ovos): ").replace(",", "."))
+        if ingred_selecionado == "Ovos":
+            qtd_unidade = tamanho
+            tamanho = tamanho*50
+            print(f"\n[Sistema]: Convertendo {qtd_unidade:.0f} ovos para {tamanho:.0f}g no estoque")
         if doces_selecionado not in Estoque:
             Estoque[doces_selecionado] = {}
         Estoque[doces_selecionado][ingred_selecionado] = {
