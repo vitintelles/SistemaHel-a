@@ -1,0 +1,18 @@
+{
+    "Brownie": {
+        "Chocolate": {
+            "Tamanho": 1000.0,
+            "Valor": 22.5
+        },
+        "Manteiga": {
+            "Tamanho": 200.0,
+            "Valor": 12.5
+        }
+    },
+    "Cookie Baunilha": {
+        "Ovos": {
+            "Tamanho": 1000.0,
+            "Valor": 16.8
+        }
+    }
+}
