@@ -56,9 +56,10 @@ except FileNotFoundError:
     Estoque = {}
 
 while True:
-    print("1. Cadastrar novo ingrediente")
+    print("\n1. Cadastrar novo ingrediente")
     print("2. Calcular custo de uma fornada")
-    print("3. Sair")
+    print("3. Visualizar Estoque")
+    print("4. Sair")
     
     OpEscolha = int(input("Escolha uma opção: "))
 
@@ -112,7 +113,18 @@ while True:
                     print(f"Alerta: O preço de '{nome_ingred}' não foi cadastrado! O cálculo final estará ERRADO.")
             print(f"\nO valor dessa fornada foi de R${custo_total:.2f}.")
     elif OpEscolha == 3:
-        print("Saindo do sistema... Até Logo!")
-        break
+        print("\n--- ESTOQUE ATUAL ---")
+        if not Estoque:
+            print("O estoque está vazio. Cadastre insumos na Opção 1.")
+        else:
+            for doce, ingrediente_do_doce in Estoque.items():
+                print(f"\n 🧁 {doce}: ")
+                for ingredientes, dados in ingrediente_do_doce.items():
+                    gramas = dados["Tamanho"]
+                    print(f"🔸 {ingredientes}: {gramas:.0f}g")
+        print("------------------------")
+    elif OpEscolha == 4:
+        print("Saindo do sistema")
+        break    
     else:
         print("\nOpção inválida! Digite 1, 2 ou 3.")
