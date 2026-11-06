@@ -121,7 +121,11 @@ while True:
                 print(f"\n 🧁 {doce}: ")
                 for ingredientes, dados in ingrediente_do_doce.items():
                     gramas = dados["Tamanho"]
-                    print(f"🔸 {ingredientes}: {gramas:.0f}g")
+                    if gramas < 300:
+                        status = "🔴 BAIXO"
+                    else:
+                        status = "🟢 OK"
+                    print(f"🔸 {ingredientes}: {gramas:.0f}g [{status}]")
         print("------------------------")
     elif OpEscolha == 4:
         print("Saindo do sistema")
