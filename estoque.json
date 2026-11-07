@@ -8,6 +8,11 @@
         "Manteiga": {
             "Tamanho": 0.0,
             "Valor": 12.5
+        },
+        "Ovos": {
+            "Tamanho": 1000.0,
+            "Valor": 12.9,
+            "Saldo": 1000.0
         }
     },
     "Cookie Baunilha": {
