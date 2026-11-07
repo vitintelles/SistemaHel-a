@@ -86,6 +86,7 @@ while True:
         Estoque[doces_selecionado][ingred_selecionado] = {
             "Tamanho": tamanho,
             "Valor": preço,
+            "Saldo": tamanho
         }
         print("\nIngrediente salvo com sucesso!")
         print("Estoque Atual:", Estoque)
@@ -98,20 +99,42 @@ while True:
         opcao_doce = int(input("Digite o número do doce: "))
         doces_selecionado = doces_disponiveis[opcao_doce - 1]
 
-        custo_total = 0
-
         if doces_selecionado in Receita:
-            print(f"\n--- Calculando custo do {doces_selecionado} ---")
+            print(f"\n--- Verificando estoque para {doces_selecionado} ---")
+            estoque_suficiente = True
+
             for nome_ingred, qtd_usada in Receita[doces_selecionado].items():
+                #print(f"Debug: Receita pede '{nome_ingred}'. O banco de dados tem: {list(Estoque[doces_selecionado].keys())}")
                 if doces_selecionado in Estoque and nome_ingred in Estoque[doces_selecionado]:
+                    saldo_atual = Estoque[doces_selecionado][nome_ingred].get("Saldo", Estoque[doces_selecionado][nome_ingred]["Tamanho"])
+                    if saldo_atual < qtd_usada:
+                        print(f"❌ Faltam {nome_ingred}! Necessário: {qtd_usada}g | Disponível: {saldo_atual:.02f}g")
+                        estoque_suficiente = False
+                else:
+                    print(f"❌ {nome_ingred} não está cadastrado no estoque!")
+                    estoque_suficiente = False
+            if estoque_suficiente:
+                custo_total = 0
+                print("\n--- Receita Autorizada! Calculando custo... ---")
+
+                for nome_ingred, qtd_usada in Receita[doces_selecionado].items():
                     valor_pago = Estoque[doces_selecionado][nome_ingred]["Valor"]
                     tamanho_pacote = Estoque[doces_selecionado][nome_ingred]["Tamanho"]
+                    saldo_atual = Estoque[doces_selecionado][nome_ingred].get("Saldo", tamanho_pacote)
+                    
                     custo_ingrediente = (valor_pago * qtd_usada) / tamanho_pacote
                     custo_total += custo_ingrediente
-                    print(f"- {nome_ingred}: R$ {custo_ingrediente:.2f}")
-                else:
-                    print(f"Alerta: O preço de '{nome_ingred}' não foi cadastrado! O cálculo final estará ERRADO.")
-            print(f"\nO valor dessa fornada foi de R${custo_total:.2f}.")
+
+                    novo_saldo = saldo_atual - qtd_usada
+                    Estoque[doces_selecionado][nome_ingred]["Saldo"] = novo_saldo
+
+                    print(f"- {nome_ingred}: R$ {custo_ingrediente:.2f} (Restam: {novo_saldo:.0f}g)")
+                print(f"\n✅ O valor dessa fornada foi de R${custo_total:.2f}.")
+                with open("estoque.json", "w") as Estoque_Helea:
+                    json.dump(Estoque, Estoque_Helea, indent=4)
+            else:
+                print(f"\n⚠️ Operação cancelada! Abasteça o estoque na opção 1 para fazer esta fornada")
+            
     elif OpEscolha == 3:
         print("\n--- ESTOQUE ATUAL ---")
         if not Estoque:
@@ -120,7 +143,7 @@ while True:
             for doce, ingrediente_do_doce in Estoque.items():
                 print(f"\n 🧁 {doce}: ")
                 for ingredientes, dados in ingrediente_do_doce.items():
-                    gramas = dados["Tamanho"]
+                    gramas = dados.get("Saldo", dados["Tamanho"])
                     if gramas < 300:
                         status = "🔴 BAIXO"
                     else:

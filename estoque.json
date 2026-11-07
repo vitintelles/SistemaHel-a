@@ -2,10 +2,11 @@
     "Brownie": {
         "Chocolate": {
             "Tamanho": 1000.0,
-            "Valor": 22.5
+            "Valor": 22.5,
+            "Saldo": 1000.0
         },
         "Manteiga": {
-            "Tamanho": 200.0,
+            "Tamanho": 0.0,
             "Valor": 12.5
         }
     },
