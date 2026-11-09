@@ -47,6 +47,13 @@ Receita = {
         "Corante em Gel Vermelho": 2
     }
 }
+
+Ficha_Tecnica = {
+    "Brownie": {"Rendimento": 16, "Embalagem": 1.50},
+    "Cookie Baunilha": {"Rendimento": 8, "Embalgaem": 1.20},
+    "Cookie Chocolate": {"Rendimento": 8, "Embalagem": 1.20},
+    "Cookie Red Velvet": {"Rendimento": 8, "Embalagem": 1.20}
+}
 doces_disponiveis = list(Receita.keys())
 
 # Cria uma lsita global e sem repetições de todos os ingredientes usados pela Heléa
